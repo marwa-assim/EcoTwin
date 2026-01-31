@@ -1,211 +1,210 @@
-import { useState } from "react";
-import { ScrollView, Text, View, TouchableOpacity, TextInput, Modal, Alert } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Alert } from "react-native";
+import { useState, useEffect } from "react";
+import { Link, router, useFocusEffect } from "expo-router";
+import { useCallback } from "react";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Haptics from "expo-haptics";
+
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 
 interface Building {
   id: string;
   name: string;
+  type: string;
+  size: number;
+  floors: number;
   location: string;
-  size: string;
-  carbonFootprint: string;
-  status: "Active" | "Needs Attention" | "Optimized";
-  lastSimulation: string;
+  image?: string;
+  createdAt: string;
 }
-
-const mockBuildings: Building[] = [
-  {
-    id: "1",
-    name: "Headquarters Building",
-    location: "San Francisco, CA",
-    size: "150,000 sq ft",
-    carbonFootprint: "850 tons CO₂/year",
-    status: "Active",
-    lastSimulation: "2 days ago",
-  },
-  {
-    id: "2",
-    name: "Manufacturing Facility",
-    location: "Austin, TX",
-    size: "300,000 sq ft",
-    carbonFootprint: "1,200 tons CO₂/year",
-    status: "Needs Attention",
-    lastSimulation: "1 week ago",
-  },
-];
 
 export default function BuildingsScreen() {
   const colors = useColors();
-  const [buildings, setBuildings] = useState<Building[]>(mockBuildings);
+  const [buildings, setBuildings] = useState<Building[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showAddModal, setShowAddModal] = useState(false);
 
-  const filteredBuildings = buildings.filter((building) =>
-    building.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    building.location.toLowerCase().includes(searchQuery.toLowerCase())
+  useFocusEffect(
+    useCallback(() => {
+      loadBuildings();
+    }, [])
   );
 
-  const BuildingCard = ({ building }: { building: Building }) => (
-    <TouchableOpacity
-      className="bg-surface rounded-xl p-4 mb-4 active:opacity-70"
-    >
-      {/* Building Image Placeholder */}
-      <View className="w-full h-32 bg-primary/10 rounded-lg mb-3 items-center justify-center">
-        <Text className="text-5xl">🏢</Text>
-        <Text className="text-xs text-muted mt-2">3D Digital Twin</Text>
-      </View>
+  const loadBuildings = async () => {
+    try {
+      const data = await AsyncStorage.getItem("buildings");
+      if (data) {
+        setBuildings(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error("Failed to load buildings", error);
+    }
+  };
 
-      {/* Building Info */}
-      <View className="flex-row items-start justify-between mb-2">
-        <View className="flex-1">
-          <Text className="text-lg font-bold text-foreground mb-1">{building.name}</Text>
-          <Text className="text-sm text-muted">{building.location}</Text>
-        </View>
-        <View className={`px-3 py-1 rounded-full ${
-          building.status === "Active" ? "bg-success/20" :
-          building.status === "Optimized" ? "bg-primary/20" :
-          "bg-warning/20"
-        }`}>
-          <Text className={`text-xs font-medium ${
-            building.status === "Active" ? "text-success" :
-            building.status === "Optimized" ? "text-primary" :
-            "text-warning"
-          }`}>{building.status}</Text>
-        </View>
-      </View>
+  const deleteBuilding = async (id: string) => {
+    Alert.alert(
+      "Delete Building",
+      "Are you sure you want to delete this building?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              const filtered = buildings.filter(b => b.id !== id);
+              await AsyncStorage.setItem("buildings", JSON.stringify(filtered));
+              setBuildings(filtered);
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            } catch (error) {
+              Alert.alert("Error", "Failed to delete building");
+            }
+          }
+        }
+      ]
+    );
+  };
 
-      {/* Metrics */}
-      <View className="flex-row gap-4 mb-3">
-        <View className="flex-1">
-          <Text className="text-xs text-muted mb-1">Size</Text>
-          <Text className="text-sm font-semibold text-foreground">{building.size}</Text>
-        </View>
-        <View className="flex-1">
-          <Text className="text-xs text-muted mb-1">Carbon Footprint</Text>
-          <Text className="text-sm font-semibold text-foreground">{building.carbonFootprint}</Text>
-        </View>
-      </View>
-
-      <View className="border-t border-border pt-3">
-        <Text className="text-xs text-muted">Last simulation: {building.lastSimulation}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const AddBuildingModal = () => (
-    <Modal
-      visible={showAddModal}
-      animationType="slide"
-      presentationStyle="pageSheet"
-      onRequestClose={() => setShowAddModal(false)}
-    >
-      <View className="flex-1 bg-background">
-        <View className="px-6 pt-6 pb-4 border-b border-border">
-          <View className="flex-row items-center justify-between">
-            <Text className="text-2xl font-bold text-foreground">Add Building</Text>
-            <TouchableOpacity onPress={() => setShowAddModal(false)}>
-              <Text className="text-lg text-primary font-semibold">Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <ScrollView className="flex-1 px-6" contentContainerStyle={{ paddingTop: 24, paddingBottom: 40 }}>
-          {/* Option 1: Upload Existing */}
-          <TouchableOpacity
-            className="bg-surface rounded-xl p-6 mb-4 border-2 border-dashed border-border active:border-primary"
-            onPress={() => {
-              setShowAddModal(false);
-              Alert.alert("Upload Building", "File picker would open here to upload building sketches or CAD files");
-            }}
-          >
-            <View className="items-center">
-              <Text className="text-5xl mb-3">📄</Text>
-              <Text className="text-lg font-bold text-foreground mb-2">Upload Existing Building</Text>
-              <Text className="text-sm text-muted text-center">
-                Upload building sketches, CAD files, or blueprints. Our AI will convert them to 3D digital twins.
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* Option 2: Design New */}
-          <TouchableOpacity
-            className="bg-surface rounded-xl p-6 border-2 border-dashed border-border active:border-primary"
-            onPress={() => {
-              setShowAddModal(false);
-              Alert.alert("Design New Building", "Design wizard would open here to create a new building from scratch");
-            }}
-          >
-            <View className="items-center">
-              <Text className="text-5xl mb-3">🏗️</Text>
-              <Text className="text-lg font-bold text-foreground mb-2">Design New Building</Text>
-              <Text className="text-sm text-muted text-center">
-                Design a building from scratch. Specify land area, facilities, floors, and sustainability goals.
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
-    </Modal>
+  const filteredBuildings = buildings.filter(b =>
+    b.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <ScreenContainer className="flex-1">
+    <ScreenContainer>
       <View className="flex-1">
         {/* Header */}
-        <View className="px-6 pt-6 pb-4">
-          <Text className="text-3xl font-bold text-foreground mb-4">My Buildings</Text>
+        <View className="px-4 py-4 border-b" style={{ borderBottomColor: colors.border }}>
+          <Text className="text-foreground text-2xl font-bold mb-4">Buildings</Text>
           
           {/* Search Bar */}
-          <View className="flex-row gap-3">
-            <View className="flex-1 bg-surface rounded-lg px-4 py-3 flex-row items-center">
-              <Text className="text-muted mr-2">🔍</Text>
-              <TextInput
-                className="flex-1 text-foreground"
-                placeholder="Search buildings..."
-                placeholderTextColor={colors.muted}
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
-            </View>
-            <TouchableOpacity
-              className="bg-primary w-12 h-12 rounded-lg items-center justify-center active:opacity-80"
-              onPress={() => setShowAddModal(true)}
-            >
-              <Text className="text-background text-2xl font-light">+</Text>
-            </TouchableOpacity>
-          </View>
+          <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search buildings..."
+            placeholderTextColor={colors.muted}
+            className="bg-surface rounded-xl p-3 text-foreground"
+            style={{ borderWidth: 1, borderColor: colors.border }}
+          />
         </View>
 
-        {/* Buildings List */}
-        <ScrollView
-          className="flex-1 px-6"
-          contentContainerStyle={{ paddingBottom: 20 }}
-        >
-          {filteredBuildings.length > 0 ? (
-            filteredBuildings.map((building) => (
-              <BuildingCard key={building.id} building={building} />
-            ))
-          ) : (
-            <View className="flex-1 items-center justify-center py-20">
-              <Text className="text-6xl mb-4">🏗️</Text>
-              <Text className="text-xl font-bold text-foreground mb-2">No Buildings Found</Text>
-              <Text className="text-base text-muted text-center mb-6">
-                {searchQuery ? "Try a different search term" : "Add your first building to get started"}
+        <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
+          {buildings.length === 0 ? (
+            <Animated.View entering={FadeInDown.duration(400)} className="items-center justify-center py-16">
+              <Image
+                source={require("@/assets/images/empty-buildings.png")}
+                style={{ width: 200, height: 200, marginBottom: 16 }}
+                resizeMode="contain"
+              />
+              <Text className="text-foreground text-xl font-bold mb-2">No Buildings Yet</Text>
+              <Text className="text-muted text-center mb-6 px-8">
+                Add your first building to start analyzing carbon reduction opportunities
               </Text>
-              {!searchQuery && (
-                <TouchableOpacity
-                  className="bg-primary px-6 py-3 rounded-full active:opacity-80"
-                  onPress={() => setShowAddModal(true)}
+              <Link href="/buildings/add" asChild>
+                <TouchableOpacity 
+                  onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+                  className="bg-primary rounded-xl px-6 py-3"
                 >
-                  <Text className="text-background font-semibold">Add Building</Text>
+                  <Text className="text-white font-semibold">+ Add Building</Text>
                 </TouchableOpacity>
-              )}
-            </View>
+              </Link>
+            </Animated.View>
+          ) : (
+            <>
+              {/* Add Button */}
+              <Link href="/buildings/add" asChild>
+                <TouchableOpacity 
+                  onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+                  className="bg-primary rounded-2xl p-4 my-4 flex-row items-center justify-between"
+                >
+                  <View>
+                    <Text className="text-white text-lg font-bold">Add New Building</Text>
+                    <Text className="text-white/80 text-sm">Upload or design from scratch</Text>
+                  </View>
+                  <Text className="text-white text-3xl">+</Text>
+                </TouchableOpacity>
+              </Link>
+
+              {/* Buildings List */}
+              <View className="gap-4 pb-6">
+                {filteredBuildings.map((building, index) => (
+                  <Animated.View 
+                    key={building.id} 
+                    entering={FadeInDown.delay(index * 100).duration(400)}
+                  >
+                    <View 
+                      className="bg-surface rounded-2xl overflow-hidden"
+                      style={{ borderWidth: 1, borderColor: colors.border }}
+                    >
+                      {building.image ? (
+                        <Image
+                          source={{ uri: building.image }}
+                          style={{ width: "100%", height: 160 }}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <View 
+                          className="w-full items-center justify-center"
+                          style={{ height: 160, backgroundColor: colors.primary + "20" }}
+                        >
+                          <Text style={{ fontSize: 60 }}>
+                            {building.type === "office" ? "🏢" : 
+                             building.type === "residential" ? "🏘️" : 
+                             building.type === "industrial" ? "🏭" : "🏬"}
+                          </Text>
+                        </View>
+                      )}
+                      
+                      <View className="p-4">
+                        <Text className="text-foreground text-xl font-bold mb-1">{building.name}</Text>
+                        <Text className="text-muted text-sm capitalize mb-2">{building.type}</Text>
+                        
+                        <View className="flex-row gap-4 mb-3">
+                          <View className="flex-1">
+                            <Text className="text-muted text-xs">Size</Text>
+                            <Text className="text-foreground font-semibold">{building.size.toLocaleString()} sq ft</Text>
+                          </View>
+                          <View className="flex-1">
+                            <Text className="text-muted text-xs">Floors</Text>
+                            <Text className="text-foreground font-semibold">{building.floors}</Text>
+                          </View>
+                        </View>
+                        
+                        <Text className="text-muted text-sm mb-4">📍 {building.location}</Text>
+                        
+                        {/* Actions */}
+                        <View className="flex-row gap-2">
+                          <TouchableOpacity
+                            onPress={() => {
+                              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                              router.push("/simulations/new");
+                            }}
+                            className="flex-1 bg-primary rounded-xl py-3 items-center"
+                          >
+                            <Text className="text-white font-semibold">Run Simulation</Text>
+                          </TouchableOpacity>
+                          
+                          <TouchableOpacity
+                            onPress={() => {
+                              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                              deleteBuilding(building.id);
+                            }}
+                            className="bg-error/20 rounded-xl px-4 py-3 items-center justify-center"
+                            style={{ borderWidth: 1, borderColor: colors.error }}
+                          >
+                            <Text className="text-error font-semibold">🗑️</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  </Animated.View>
+                ))}
+              </View>
+            </>
           )}
         </ScrollView>
       </View>
-
-      <AddBuildingModal />
     </ScreenContainer>
   );
 }
