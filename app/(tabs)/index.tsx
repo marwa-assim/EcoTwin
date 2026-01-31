@@ -170,6 +170,39 @@ export default function HomeScreen() {
           />
         </View>
 
+        {/* Featured Demo */}
+        <View className="px-6 mb-6">
+          <Text className="text-lg font-bold text-foreground mb-3">Featured Demo</Text>
+          <TouchableOpacity
+            className="bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl p-5 active:opacity-80"
+            onPress={() => router.push("/demo/sce-building" as any)}
+          >
+            <View className="flex-row items-center mb-3">
+              <View className="w-12 h-12 bg-primary/30 rounded-xl items-center justify-center mr-3">
+                <Text className="text-2xl">🏢</Text>
+              </View>
+              <View className="flex-1">
+                <Text className="text-lg font-bold text-foreground mb-1">
+                  Supreme Council for Environment
+                </Text>
+                <Text className="text-sm text-muted">Seef Area, Manama, Bahrain</Text>
+              </View>
+            </View>
+            <View className="flex-row gap-2 mb-3">
+              <View className="bg-success/20 px-3 py-1 rounded-full">
+                <Text className="text-xs font-medium text-success">45% CO₂ Reduction</Text>
+              </View>
+              <View className="bg-primary/20 px-3 py-1 rounded-full">
+                <Text className="text-xs font-medium text-primary">7.8 yr Payback</Text>
+              </View>
+            </View>
+            <Text className="text-sm text-foreground mb-2">
+              Explore a complete sustainability analysis with 3D digital twin, IoT data, and AI-powered recommendations.
+            </Text>
+            <Text className="text-sm font-semibold text-primary">View Full Demo →</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Insights */}
         <View className="px-6">
           <Text className="text-lg font-bold text-foreground mb-3">AI Insights</Text>
