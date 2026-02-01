@@ -454,3 +454,5 @@
 
 - [ ] CRITICAL: User still seeing 0% - browser shows correct but user device doesn't - fix the root cause
 - [ ] CRITICAL: PDF download not working - fix PDF generation and download
+
+- [ ] FINAL FIX: Ensure demo data structure in demoSimulations.ts matches EXACTLY what results screen expects

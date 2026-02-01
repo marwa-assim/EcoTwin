@@ -35,8 +35,8 @@ export default function SimulationResultsScreen() {
           baseline: { annualEmissions: 1000 },
           projected: { 
             annualEmissions: 1000 * (1 - sim.carbonReduction / 100),
-            annualReduction: (1000 * sim.carbonReduction / 100),
-            reductionPercentage: sim.carbonReduction 
+            annualReduction: 1000 * (sim.carbonReduction / 100),
+            reductionPercentage: sim.carbonReduction
           },
           financial: { 
             implementationCost: sim.costSavings / (sim.roi / 100), 
