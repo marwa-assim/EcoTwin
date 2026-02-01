@@ -409,3 +409,5 @@
 - [ ] Implement side-by-side metrics comparison
 - [ ] Add comparison charts for carbon intensity and energy consumption
 - [ ] Test all new features
+
+- [x] Fix simulation results screen error when viewing demo simulations

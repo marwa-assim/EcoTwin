@@ -9,6 +9,7 @@ import * as Haptics from "expo-haptics";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
+import { getAllSimulations } from "@/lib/demoSimulations";
 
 export default function SimulationResultsScreen() {
   const colors = useColors();
@@ -21,12 +22,49 @@ export default function SimulationResultsScreen() {
 
   const loadSimulation = async () => {
     try {
+      // Load user simulations from AsyncStorage
       const data = await AsyncStorage.getItem("simulations");
+      let userSimulations: any[] = [];
       if (data) {
-        const simulations = JSON.parse(data);
-        const found = simulations.find((s: any) => s.id === simulationId);
-        setSimulation(found);
+        userSimulations = JSON.parse(data);
       }
+      
+      // Load demo simulations
+      const demoSims = getAllSimulations();
+      const formattedDemoSims = demoSims.map(sim => ({
+        id: sim.id,
+        buildingName: sim.buildingName,
+        interventionType: sim.scenarioType.toLowerCase().includes("solar") ? "solar" : 
+                         sim.scenarioType.toLowerCase().includes("hvac") ? "hvac" :
+                         sim.scenarioType.toLowerCase().includes("wind") ? "wind" : 
+                         sim.scenarioType.toLowerCase().includes("process") || sim.scenarioType.toLowerCase().includes("energy") ? "hvac" : "envelope",
+        results: {
+          baseline: { annualEmissions: 1000 },
+          projected: { 
+            annualEmissions: 1000 * (1 - sim.carbonReduction / 100),
+            annualReduction: (1000 * sim.carbonReduction / 100),
+            reductionPercentage: sim.carbonReduction 
+          },
+          financial: { 
+            implementationCost: sim.costSavings / (sim.roi / 100), 
+            annualSavings: sim.costSavings, 
+            paybackPeriod: sim.paybackPeriod,
+            roi: sim.roi,
+            npv: sim.costSavings * 15
+          },
+          confidence: {
+            level: sim.confidence >= 90 ? "high" : sim.confidence >= 80 ? "medium" : "low",
+            percentage: sim.confidence,
+            factors: ["Building data quality", "Historical performance", "Weather patterns"]
+          }
+        },
+        createdAt: sim.date
+      }));
+      
+      // Combine and find the simulation
+      const allSims = [...userSimulations, ...formattedDemoSims];
+      const found = allSims.find((s: any) => s.id === simulationId);
+      setSimulation(found);
     } catch (error) {
       console.error("Failed to load simulation", error);
     }
