@@ -33,10 +33,11 @@ export default function SimulationsScreen() {
 
   const reloadDemoData = async () => {
     try {
-      // Clear all data including initialization flag
+      // Clear all data including initialization flags
       await AsyncStorage.removeItem("simulations");
       await AsyncStorage.removeItem("buildings");
       await AsyncStorage.removeItem("demoDataInitialized");
+      await AsyncStorage.removeItem("demoSimsSaved");
       // Reload page to trigger auto-initialization
       if (typeof window !== 'undefined') {
         window.location.reload();
@@ -82,6 +83,13 @@ export default function SimulationsScreen() {
         },
         createdAt: sim.date
       }));
+      
+      // Save demo simulations to AsyncStorage if not already saved
+      const hasDemoSims = await AsyncStorage.getItem("demoSimsSaved");
+      if (!hasDemoSims) {
+        await AsyncStorage.setItem("simulations", JSON.stringify(formattedDemoSims));
+        await AsyncStorage.setItem("demoSimsSaved", "true");
+      }
       
       // Combine user and demo simulations
       const allSims = [...userSimulations, ...formattedDemoSims];

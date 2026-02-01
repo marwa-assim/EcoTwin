@@ -445,3 +445,5 @@
 - [x] Add "Reload Demo Data" button in simulations tab to force refresh all demo simulations
 
 - [x] CRITICAL: Auto-load demo data on first app launch so simulations show correct % from the beginning
+
+- [x] CRITICAL: Fix demo simulations data structure to match results screen expectations - now saving formatted demo sims to AsyncStorage
