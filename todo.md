@@ -447,3 +447,5 @@
 - [x] CRITICAL: Auto-load demo data on first app launch so simulations show correct % from the beginning
 
 - [x] CRITICAL: Fix demo simulations data structure to match results screen expectations - now saving formatted demo sims to AsyncStorage
+
+- [x] CRITICAL: Results screen still showing 0% on first load - now always uses fresh demo data, never relies on AsyncStorage for demo sims

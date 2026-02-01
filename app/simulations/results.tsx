@@ -22,14 +22,7 @@ export default function SimulationResultsScreen() {
 
   const loadSimulation = async () => {
     try {
-      // Load user simulations from AsyncStorage
-      const data = await AsyncStorage.getItem("simulations");
-      let userSimulations: any[] = [];
-      if (data) {
-        userSimulations = JSON.parse(data);
-      }
-      
-      // Load demo simulations
+      // Always load and format demo simulations fresh from source
       const demoSims = getAllSimulations();
       const formattedDemoSims = demoSims.map(sim => ({
         id: sim.id,
@@ -61,6 +54,20 @@ export default function SimulationResultsScreen() {
         createdAt: sim.date
       }));
       
+      // Check if this is a demo simulation
+      const demoSim = formattedDemoSims.find((s: any) => s.id === simulationId);
+      if (demoSim) {
+        setSimulation(demoSim);
+        return;
+      }
+      
+      // If not demo, load user simulations from AsyncStorage
+      const data = await AsyncStorage.getItem("simulations");
+      let userSimulations: any[] = [];
+      if (data) {
+        userSimulations = JSON.parse(data);
+      }
+      
       // Add annualReduction to user simulations if missing
       const formattedUserSims = userSimulations.map((sim: any) => ({
         ...sim,
@@ -68,14 +75,15 @@ export default function SimulationResultsScreen() {
           ...sim.results,
           projected: {
             ...sim.results.projected,
-            annualReduction: sim.results.baseline.annualEmissions - sim.results.projected.annualEmissions
+            annualReduction: sim.results.baseline?.annualEmissions && sim.results.projected?.annualEmissions 
+              ? sim.results.baseline.annualEmissions - sim.results.projected.annualEmissions
+              : 0
           }
         }
       }));
       
-      // Combine and find the simulation
-      const allSims = [...formattedUserSims, ...formattedDemoSims];
-      const found = allSims.find((s: any) => s.id === simulationId);
+      // Find user simulation
+      const found = formattedUserSims.find((s: any) => s.id === simulationId);
       setSimulation(found);
     } catch (error) {
       console.error("Failed to load simulation", error);
