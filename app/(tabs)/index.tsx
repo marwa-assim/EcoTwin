@@ -6,11 +6,19 @@ import * as Haptics from "expo-haptics";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
+import { demoBuildings } from "@/lib/demoBuildings";
+import { getAllSimulations } from "@/lib/demoSimulations";
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
   const colors = useColors();
+  
+  // Calculate real statistics
+  const buildingsCount = demoBuildings.length;
+  const simulationsCount = getAllSimulations().length;
+  const totalCO2Saved = getAllSimulations().reduce((sum, sim) => sum + (sim.carbonReduction * 10), 0); // Approximate
+  const totalSavings = getAllSimulations().reduce((sum, sim) => sum + sim.costSavings, 0);
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -64,22 +72,22 @@ export default function HomeScreen() {
             contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 16, gap: 12 }}
           >
             <View className="bg-surface rounded-2xl p-4 w-36" style={{ borderWidth: 1, borderColor: colors.border }}>
-              <Text className="text-primary text-3xl font-bold">0</Text>
+              <Text className="text-primary text-3xl font-bold">{buildingsCount}</Text>
               <Text className="text-muted text-sm mt-1">Buildings</Text>
             </View>
             
             <View className="bg-surface rounded-2xl p-4 w-36" style={{ borderWidth: 1, borderColor: colors.border }}>
-              <Text className="text-primary text-3xl font-bold">0</Text>
+              <Text className="text-primary text-3xl font-bold">{simulationsCount}</Text>
               <Text className="text-muted text-sm mt-1">Simulations</Text>
             </View>
             
             <View className="bg-surface rounded-2xl p-4 w-36" style={{ borderWidth: 1, borderColor: colors.border }}>
-              <Text className="text-secondary text-3xl font-bold">0t</Text>
+              <Text className="text-secondary text-3xl font-bold">{Math.round(totalCO2Saved)}t</Text>
               <Text className="text-muted text-sm mt-1">CO₂ Saved</Text>
             </View>
             
             <View className="bg-surface rounded-2xl p-4 w-36" style={{ borderWidth: 1, borderColor: colors.border }}>
-              <Text className="text-success text-3xl font-bold">$0</Text>
+              <Text className="text-success text-3xl font-bold">${(totalSavings / 1000000).toFixed(1)}M</Text>
               <Text className="text-muted text-sm mt-1">Cost Savings</Text>
             </View>
           </ScrollView>

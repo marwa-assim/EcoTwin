@@ -421,7 +421,7 @@ export default function BlockchainScreen() {
 
   return (
     <ScreenContainer className="flex-1">
-      <View className="flex-1">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View className="px-6 pt-6 pb-4">
           <View className="flex-row items-center justify-between mb-2">
@@ -474,7 +474,7 @@ export default function BlockchainScreen() {
         </ScrollView>
 
         {/* Transactions List */}
-        <View className="flex-1 px-6">
+        <View className="px-6 pb-6">
           <View className="flex-row items-center justify-between mb-4">
             <Text className="text-xl font-bold text-foreground">Recent Transactions</Text>
             <TouchableOpacity
@@ -488,10 +488,7 @@ export default function BlockchainScreen() {
             </TouchableOpacity>
           </View>
 
-          <ScrollView
-            contentContainerStyle={{ paddingBottom: 20 }}
-            showsVerticalScrollIndicator={false}
-          >
+          <View>
             {transactions.length === 0 ? (
               <View className="bg-surface rounded-2xl p-8 items-center">
                 <Text className="text-2xl mb-4">🔗</Text>
@@ -511,9 +508,9 @@ export default function BlockchainScreen() {
                 <TransactionCard key={transaction.id} transaction={transaction} />
               ))
             )}
-          </ScrollView>
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       <TransactionDetailModal />
       <AddPartnerModal />

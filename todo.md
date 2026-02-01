@@ -411,3 +411,9 @@
 - [ ] Test all new features
 
 - [x] Fix simulation results screen error when viewing demo simulations
+
+- [ ] Remove question mark near app name and logo
+- [x] Fix home page statistics to show real building counts
+- [x] Fix home page statistics to show real simulation counts
+- [x] Fix simulation results showing 0% instead of actual percentages
+- [x] Fix blockchain transactions scroll (remove fixed height, make part of page)

@@ -61,8 +61,20 @@ export default function SimulationResultsScreen() {
         createdAt: sim.date
       }));
       
+      // Add annualReduction to user simulations if missing
+      const formattedUserSims = userSimulations.map((sim: any) => ({
+        ...sim,
+        results: {
+          ...sim.results,
+          projected: {
+            ...sim.results.projected,
+            annualReduction: sim.results.baseline.annualEmissions - sim.results.projected.annualEmissions
+          }
+        }
+      }));
+      
       // Combine and find the simulation
-      const allSims = [...userSimulations, ...formattedDemoSims];
+      const allSims = [...formattedUserSims, ...formattedDemoSims];
       const found = allSims.find((s: any) => s.id === simulationId);
       setSimulation(found);
     } catch (error) {
