@@ -46,7 +46,9 @@ export default function SimulationsScreen() {
         buildingName: sim.buildingName,
         interventionType: sim.scenarioType.toLowerCase().includes("solar") ? "solar" : 
                          sim.scenarioType.toLowerCase().includes("hvac") ? "hvac" :
-                         sim.scenarioType.toLowerCase().includes("wind") ? "wind" : "envelope",
+                         sim.scenarioType.toLowerCase().includes("wind") ? "wind" : 
+                         sim.scenarioType.toLowerCase().includes("process") ? "hvac" :
+                         sim.scenarioType.toLowerCase().includes("energy") ? "hvac" : "envelope",
         results: {
           baseline: { annualEmissions: 1000 },
           projected: { 
