@@ -33,12 +33,17 @@ export default function SimulationsScreen() {
 
   const reloadDemoData = async () => {
     try {
-      // Clear all simulations and buildings
+      // Clear all data including initialization flag
       await AsyncStorage.removeItem("simulations");
       await AsyncStorage.removeItem("buildings");
-      // Reload
-      await loadSimulations();
-      alert("Demo data reloaded successfully! All simulations now show correct percentages.");
+      await AsyncStorage.removeItem("demoDataInitialized");
+      // Reload page to trigger auto-initialization
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      } else {
+        await loadSimulations();
+        alert("Demo data reloaded successfully! All simulations now show correct percentages.");
+      }
     } catch (error) {
       console.error("Failed to reload demo data", error);
       alert("Failed to reload data. Please try again.");

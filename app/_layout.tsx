@@ -18,6 +18,9 @@ import type { EdgeInsets, Metrics, Rect } from "react-native-safe-area-context";
 
 import { trpc, createTRPCClient } from "@/lib/trpc";
 import { initManusRuntime, subscribeSafeAreaInsets } from "@/lib/_core/manus-runtime";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loadDemoBuildings } from "@/lib/demoBuildings";
+import { getAllSimulations } from "@/lib/demoSimulations";
 
 const DEFAULT_WEB_INSETS: EdgeInsets = { top: 0, right: 0, bottom: 0, left: 0 };
 const DEFAULT_WEB_FRAME: Rect = { x: 0, y: 0, width: 0, height: 0 };
@@ -36,6 +39,25 @@ export default function RootLayout() {
   // Initialize Manus runtime for cookie injection from parent container
   useEffect(() => {
     initManusRuntime();
+  }, []);
+
+  // Auto-load demo data on first launch
+  useEffect(() => {
+    const initializeDemoData = async () => {
+      try {
+        const hasInitialized = await AsyncStorage.getItem("demoDataInitialized");
+        if (!hasInitialized) {
+          // Load demo buildings
+          await loadDemoBuildings();
+          // Mark as initialized
+          await AsyncStorage.setItem("demoDataInitialized", "true");
+          console.log("Demo data initialized successfully");
+        }
+      } catch (error) {
+        console.error("Failed to initialize demo data", error);
+      }
+    };
+    initializeDemoData();
   }, []);
 
   const handleSafeAreaUpdate = useCallback((metrics: Metrics) => {
