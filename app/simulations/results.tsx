@@ -1,4 +1,6 @@
-import { View, Text, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
 import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
@@ -7,8 +9,6 @@ import * as Haptics from "expo-haptics";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
-
-const { width } = Dimensions.get("window");
 
 export default function SimulationResultsScreen() {
   const colors = useColors();

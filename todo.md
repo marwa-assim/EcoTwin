@@ -340,3 +340,10 @@
 - [x] Display building metrics and specifications
 - [x] Add edit and delete functionality to detail screen
 - [x] Test 3D visualization on all buildings
+
+
+## Critical Bug Fixes
+- [x] Fix simulation results screen error/crash
+- [x] Increase image sizes throughout app (hero images, building images)
+- [x] Force dark theme on web/desktop (currently showing white theme)
+- [x] Test all fixes on mobile and web
