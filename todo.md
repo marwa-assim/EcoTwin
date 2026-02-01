@@ -424,3 +424,6 @@
 
 - [x] Increase height of hero image section on home page (240px -> 320px)
 - [x] Increase height of image sections on simulation pages to show full building models (0.6 -> 0.8 screen width)
+
+- [x] Adjust simulation image size back to previous (not full width) but ensure images aren't cut (0.7 width, resizeMode: contain)
+- [x] Clear duplicate SCE buildings from AsyncStorage (3 at the end) - verified only 6 buildings showing

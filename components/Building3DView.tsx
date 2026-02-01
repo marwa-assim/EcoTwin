@@ -21,11 +21,11 @@ export function Building3DView({ buildingId, showSolarSimulation = false, model3
   return (
     <View className="w-full">
       {/* 3D Visualization */}
-      <View className="w-full bg-background rounded-2xl overflow-hidden" style={{ height: width * 0.8 }}>
+      <View className="w-full bg-background rounded-2xl overflow-hidden" style={{ height: width * 0.7 }}>
         <Image
           source={viewMode === "wireframe" ? wireframeImage : solarImage}
           style={{ width: "100%", height: "100%" }}
-          resizeMode="cover"
+          resizeMode="contain"
         />
         
         {/* View Mode Toggle */}
