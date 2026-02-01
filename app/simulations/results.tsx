@@ -125,7 +125,7 @@ export default function SimulationResultsScreen() {
             <View className="gap-3">
               <View className="bg-surface rounded-2xl p-4" style={{ borderWidth: 1, borderColor: colors.border }}>
                 <Text className="text-muted text-sm mb-1">Carbon Reduction</Text>
-                <Text className="text-success text-3xl font-bold">{projected.reductionPercentage.toFixed(1)}%</Text>
+                <Text className="text-success text-3xl font-bold">{(projected.reductionPercentage || projected.annualReduction / baseline.annualEmissions * 100 || 0).toFixed(1)}%</Text>
                 <Text className="text-muted text-sm mt-1">
                   {projected.annualReduction.toFixed(1)} tons CO₂/year saved
                 </Text>
@@ -179,11 +179,11 @@ export default function SimulationResultsScreen() {
               </View>
 
               <View className="h-2 bg-background rounded-full overflow-hidden flex-row">
-                <View style={{ width: `${100 - projected.reductionPercentage}%`, backgroundColor: colors.success }} />
-                <View style={{ width: `${projected.reductionPercentage}%`, backgroundColor: colors.error }} />
+                <View style={{ width: `${100 - (projected.reductionPercentage || 0)}%`, backgroundColor: colors.success }} />
+                <View style={{ width: `${(projected.reductionPercentage || 0)}%`, backgroundColor: colors.error }} />
               </View>
               <Text className="text-muted text-xs text-center mt-2">
-                {projected.reductionPercentage.toFixed(1)}% reduction achieved
+                {(projected.reductionPercentage || projected.annualReduction / baseline.annualEmissions * 100 || 0).toFixed(1)}% reduction achieved
               </Text>
             </View>
           </Animated.View>

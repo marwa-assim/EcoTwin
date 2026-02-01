@@ -437,3 +437,5 @@
 - [x] Remove all 0% simulations from demo data (verified - no 0% in demo data, all have correct %)
 - [x] Fix simulation results to always show correct percentages (demo data is correct, user needs to clear cache)
 - [x] Standardize all simulation image sizes (both use 0.7 width, resizeMode contain, fixed default solar image)
+
+- [x] CRITICAL: Fix simulation results screen displaying 0% - added fallback calculation if reductionPercentage is missing
