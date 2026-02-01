@@ -439,3 +439,7 @@
 - [x] Standardize all simulation image sizes (both use 0.7 width, resizeMode contain, fixed default solar image)
 
 - [x] CRITICAL: Fix simulation results screen displaying 0% - added fallback calculation if reductionPercentage is missing
+
+- [ ] URGENT: User still seeing 0% in simulation results - test in browser and fix immediately
+
+- [x] Add "Reload Demo Data" button in simulations tab to force refresh all demo simulations

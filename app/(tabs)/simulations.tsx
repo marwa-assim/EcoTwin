@@ -31,6 +31,20 @@ export default function SimulationsScreen() {
     }, [])
   );
 
+  const reloadDemoData = async () => {
+    try {
+      // Clear all simulations and buildings
+      await AsyncStorage.removeItem("simulations");
+      await AsyncStorage.removeItem("buildings");
+      // Reload
+      await loadSimulations();
+      alert("Demo data reloaded successfully! All simulations now show correct percentages.");
+    } catch (error) {
+      console.error("Failed to reload demo data", error);
+      alert("Failed to reload data. Please try again.");
+    }
+  };
+
   const loadSimulations = async () => {
     try {
       const data = await AsyncStorage.getItem("simulations");
@@ -114,6 +128,21 @@ export default function SimulationsScreen() {
             </Animated.View>
           ) : (
             <>
+              {/* Reload Demo Data Button */}
+              <TouchableOpacity 
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                  reloadDemoData();
+                }}
+                className="bg-success rounded-2xl p-4 my-4 flex-row items-center justify-between"
+              >
+                <View>
+                  <Text className="text-white text-lg font-bold">Reload Demo Data</Text>
+                  <Text className="text-white/80 text-sm">Fix 0% issue - refresh all simulations</Text>
+                </View>
+                <Text className="text-white text-3xl">🔄</Text>
+              </TouchableOpacity>
+
               {/* New Simulation Button */}
               <Link href="/simulations/new" asChild>
                 <TouchableOpacity 
