@@ -56,7 +56,10 @@ export default function SimulationResultsScreen() {
       
       // Check if this is a demo simulation
       const demoSim = formattedDemoSims.find((s: any) => s.id === simulationId);
+      console.log('Looking for simulation ID:', simulationId);
+      console.log('Found demo simulation:', demoSim);
       if (demoSim) {
+        console.log('Demo sim data:', JSON.stringify(demoSim, null, 2));
         setSimulation(demoSim);
         return;
       }
@@ -101,7 +104,7 @@ export default function SimulationResultsScreen() {
   }
 
   const { results, buildingName, interventionType } = simulation;
-  const { baseline, projected, financial, confidence } = results;
+  const { baseline = { annualEmissions: 1000 }, projected = { annualEmissions: 0, annualReduction: 0, reductionPercentage: 0 }, financial = {}, confidence = {} } = results || {};
 
   return (
     <ScreenContainer>

@@ -449,3 +449,8 @@
 - [x] CRITICAL: Fix demo simulations data structure to match results screen expectations - now saving formatted demo sims to AsyncStorage
 
 - [x] CRITICAL: Results screen still showing 0% on first load - now always uses fresh demo data, never relies on AsyncStorage for demo sims
+
+- [ ] URGENT: Percentage and carbon numbers still showing 0 in results - fix NOW for demo recording
+
+- [ ] CRITICAL: User still seeing 0% - browser shows correct but user device doesn't - fix the root cause
+- [ ] CRITICAL: PDF download not working - fix PDF generation and download
