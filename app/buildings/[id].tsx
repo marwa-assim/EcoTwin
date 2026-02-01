@@ -19,6 +19,7 @@ interface Building {
   floors: number;
   location: string;
   image?: string;
+  model3D?: any;
   createdAt: string;
   description?: string;
   currentEmissions?: number;
@@ -157,7 +158,7 @@ export default function BuildingDetailScreen() {
               {/* 3D Visualization */}
               <View className="mb-6">
                 <Text className="text-foreground text-lg font-bold mb-3">Digital Twin Visualization</Text>
-                <Building3DView buildingId={building.id} />
+                <Building3DView buildingId={building.id} model3D={building.model3D} />
               </View>
 
               {/* Building Info */}

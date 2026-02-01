@@ -347,3 +347,19 @@
 - [x] Increase image sizes throughout app (hero images, building images)
 - [x] Force dark theme on web/desktop (currently showing white theme)
 - [x] Test all fixes on mobile and web
+
+
+## Custom 3D Models for Each Building
+- [x] Search for real photos of Kingdom University
+- [x] Search for real photos of King Hamad Hospital
+- [x] Search for real photos of Alba facility
+- [x] Search for real photos of Bapco refinery
+- [x] Search for real photos of Almarifa Girls High School
+- [x] Generate custom 3D wireframe for Kingdom University (6 floors, educational design)
+- [x] Generate custom 3D wireframe for King Hamad Hospital (4 floors, healthcare design)
+- [x] Generate custom 3D wireframe for Alba (industrial smelter complex)
+- [x] Generate custom 3D wireframe for Bapco (refinery with multiple structures)
+- [x] Generate custom 3D wireframe for Almarifa School (3 floors, school design)
+- [x] Update Building3DView component to use building-specific models
+- [x] Update demo buildings data with real photo paths
+- [x] Test all buildings show correct 3D models

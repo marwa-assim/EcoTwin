@@ -5,14 +5,16 @@ import { useColors } from "@/hooks/use-colors";
 interface Building3DViewProps {
   buildingId: string;
   showSolarSimulation?: boolean;
+  model3D?: any; // Custom 3D model for this building
 }
 
-export function Building3DView({ buildingId, showSolarSimulation = false }: Building3DViewProps) {
+export function Building3DView({ buildingId, showSolarSimulation = false, model3D }: Building3DViewProps) {
   const colors = useColors();
   const [viewMode, setViewMode] = useState<"wireframe" | "solar">(showSolarSimulation ? "solar" : "wireframe");
   const { width } = Dimensions.get("window");
 
-  const wireframeImage = require("@/assets/demo-buildings/sce-building-3d-wireframe.png");
+  // Use custom 3D model if provided, otherwise use default SCE model
+  const wireframeImage = model3D || require("@/assets/demo-buildings/sce-building-3d-wireframe.png");
   const solarImage = require("@/assets/demo-buildings/sce-building-solar-simulation.png");
 
   return (

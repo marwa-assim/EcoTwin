@@ -8,6 +8,7 @@ export interface DemoBuilding {
   floors: number;
   location: string;
   image?: string;
+  model3D?: string; // Path to 3D wireframe model
   createdAt: string;
   description: string;
   currentEmissions: number; // tons CO2/year
@@ -25,6 +26,8 @@ export const demoBuildings: DemoBuilding[] = [
     description: "Leading private university in Bahrain with modern campus facilities including library, laboratories, and administrative buildings",
     currentEmissions: 580,
     energyConsumption: 2850000,
+    image: require("@/assets/demo-buildings/kingdom-university.jpg"),
+    model3D: require("@/assets/demo-buildings/kingdom-university-3d.png"),
     createdAt: new Date("2024-01-15").toISOString(),
   },
   {
@@ -37,6 +40,8 @@ export const demoBuildings: DemoBuilding[] = [
     description: "State-of-the-art university hospital with three main buildings, National Oncology Centre, and cutting-edge medical facilities",
     currentEmissions: 4200,
     energyConsumption: 18500000,
+    image: require("@/assets/demo-buildings/king-hamad-hospital.jpg"),
+    model3D: require("@/assets/demo-buildings/king-hamad-hospital-3d.png"),
     createdAt: new Date("2024-01-10").toISOString(),
   },
   {
@@ -49,6 +54,8 @@ export const demoBuildings: DemoBuilding[] = [
     description: "One of the world's largest aluminum smelters with extensive production facilities and power generation infrastructure",
     currentEmissions: 12500,
     energyConsumption: 85000000,
+    image: require("@/assets/demo-buildings/alba-facility.jpg"),
+    model3D: require("@/assets/demo-buildings/alba-facility-3d.png"),
     createdAt: new Date("2024-01-08").toISOString(),
   },
   {
@@ -61,6 +68,8 @@ export const demoBuildings: DemoBuilding[] = [
     description: "National oil company with refinery operations, administrative buildings, and extensive industrial infrastructure",
     currentEmissions: 9800,
     energyConsumption: 72000000,
+    image: require("@/assets/demo-buildings/bapco-refinery.jpg"),
+    model3D: require("@/assets/demo-buildings/bapco-refinery-3d.png"),
     createdAt: new Date("2024-01-12").toISOString(),
   },
   {
@@ -73,6 +82,8 @@ export const demoBuildings: DemoBuilding[] = [
     description: "Modern educational facility with classrooms, laboratories, sports facilities, and administrative areas",
     currentEmissions: 320,
     energyConsumption: 1650000,
+    image: require("@/assets/demo-buildings/almarifa-school.jpg"),
+    model3D: require("@/assets/demo-buildings/almarifa-school-3d.png"),
     createdAt: new Date("2024-01-18").toISOString(),
   },
 ];
