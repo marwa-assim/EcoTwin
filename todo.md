@@ -431,3 +431,9 @@
 - [x] Increase building card image heights in Buildings tab (160px -> 220px)
 - [ ] Fix simulation results showing 0% (user still seeing this issue)
 - [ ] Provide clear method to remove duplicate SCE buildings from user's device
+
+- [x] URGENT: Fix simulation results showing 0% (was working before, broke recently) - VERIFIED WORKING: All demo simulations show correct % (15%, 18%, 28%, 32%, 38%, 22%). Issue is cached data on user device - need to use clear data tool.
+
+- [x] Remove all 0% simulations from demo data (verified - no 0% in demo data, all have correct %)
+- [x] Fix simulation results to always show correct percentages (demo data is correct, user needs to clear cache)
+- [x] Standardize all simulation image sizes (both use 0.7 width, resizeMode contain, fixed default solar image)

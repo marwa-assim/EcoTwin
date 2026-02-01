@@ -16,7 +16,7 @@ export function Building3DView({ buildingId, showSolarSimulation = false, model3
 
   // Use custom 3D model if provided, otherwise use default SCE model
   const wireframeImage = model3D || require("@/assets/demo-buildings/sce-building-3d-wireframe.png");
-  const solarImage = solarModel || require("@/assets/demo-buildings/sce-building-solar.png");
+  const solarImage = solarModel || require("@/assets/demo-buildings/sce-building-solar-simulation.png");
 
   return (
     <View className="w-full">
