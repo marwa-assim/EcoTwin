@@ -421,3 +421,6 @@
 - [x] Remove duplicate SCE buildings from Buildings tab (3 extra at the end)
 - [x] Fix simulation results still showing 0% instead of actual percentages (confirmed working - shows 15%, 18%, 28%, etc.)
 - [x] Fix SCE solar simulation 3D model to match building shape (switched back to original sce-building-solar-simulation.png)
+
+- [x] Increase height of hero image section on home page (240px -> 320px)
+- [x] Increase height of image sections on simulation pages to show full building models (0.6 -> 0.8 screen width)

@@ -97,7 +97,7 @@ export default function HomeScreen() {
         <Animated.View entering={FadeInDown.delay(400).duration(600)} className="px-4">
           <Image
             source={require("@/assets/images/hero-sustainability.png")}
-            style={{ width: width - 32, height: 240, borderRadius: 16 }}
+            style={{ width: width - 32, height: 320, borderRadius: 16 }}
             resizeMode="cover"
           />
         </Animated.View>
