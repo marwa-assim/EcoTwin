@@ -10,6 +10,8 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { Building3DView } from "@/components/Building3DView";
 import { IoTDashboard } from "@/components/IoTDashboard";
+import { LineChart, BarChart, PieChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
 
 interface Building {
   id: string;
@@ -258,7 +260,8 @@ export default function BuildingDetailScreen() {
             <Animated.View entering={FadeInDown.duration(400)} className="p-4">
               <Text className="text-foreground text-lg font-bold mb-4">Building Analytics</Text>
               
-              <View className="gap-4">
+              {/* Key Metrics */}
+              <View className="gap-4 mb-6">
                 <View className="bg-surface rounded-xl p-4" style={{ borderWidth: 1, borderColor: colors.border }}>
                   <Text className="text-muted text-sm mb-1">Carbon Intensity</Text>
                   <Text className="text-foreground text-2xl font-bold">
@@ -281,6 +284,109 @@ export default function BuildingDetailScreen() {
                   <Text className="text-muted text-sm mb-1">Reduction Potential</Text>
                   <Text className="text-primary text-2xl font-bold">32-45%</Text>
                   <Text className="text-muted text-xs mt-1">Based on similar buildings</Text>
+                </View>
+              </View>
+
+              {/* Energy Consumption Trend */}
+              <View className="mb-6">
+                <Text className="text-foreground text-base font-bold mb-3">Energy Consumption (12 Months)</Text>
+                <View className="bg-surface rounded-xl p-4" style={{ borderWidth: 1, borderColor: colors.border }}>
+                  <LineChart
+                    data={{
+                      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                      datasets: [{
+                        data: [
+                          building.energyConsumption ? building.energyConsumption * 0.85 : 100,
+                          building.energyConsumption ? building.energyConsumption * 0.92 : 110,
+                          building.energyConsumption ? building.energyConsumption * 0.88 : 105,
+                          building.energyConsumption ? building.energyConsumption * 0.95 : 115,
+                          building.energyConsumption ? building.energyConsumption * 1.05 : 125,
+                          building.energyConsumption ? building.energyConsumption * 1.15 : 135,
+                          building.energyConsumption ? building.energyConsumption * 1.20 : 140,
+                          building.energyConsumption ? building.energyConsumption * 1.18 : 138,
+                          building.energyConsumption ? building.energyConsumption * 1.08 : 128,
+                          building.energyConsumption ? building.energyConsumption * 0.98 : 118,
+                          building.energyConsumption ? building.energyConsumption * 0.90 : 108,
+                          building.energyConsumption ? building.energyConsumption * 0.87 : 103,
+                        ]
+                      }]
+                    }}
+                    width={Dimensions.get("window").width - 80}
+                    height={220}
+                    chartConfig={{
+                      backgroundColor: colors.surface,
+                      backgroundGradientFrom: colors.surface,
+                      backgroundGradientTo: colors.surface,
+                      decimalPlaces: 0,
+                      color: (opacity = 1) => `rgba(10, 126, 164, ${opacity})`,
+                      labelColor: (opacity = 1) => colors.muted,
+                      style: { borderRadius: 16 },
+                      propsForDots: {
+                        r: "4",
+                        strokeWidth: "2",
+                        stroke: colors.primary
+                      }
+                    }}
+                    bezier
+                    style={{ marginVertical: 8, borderRadius: 16 }}
+                  />
+                  <Text className="text-muted text-xs text-center mt-2">Monthly kWh consumption</Text>
+                </View>
+              </View>
+
+              {/* Carbon Emissions Breakdown */}
+              <View className="mb-6">
+                <Text className="text-foreground text-base font-bold mb-3">Carbon Emissions by System</Text>
+                <View className="bg-surface rounded-xl p-4" style={{ borderWidth: 1, borderColor: colors.border }}>
+                  <PieChart
+                    data={[
+                      { name: "HVAC", population: 45, color: "#0a7ea4", legendFontColor: colors.muted, legendFontSize: 12 },
+                      { name: "Lighting", population: 25, color: "#10b981", legendFontColor: colors.muted, legendFontSize: 12 },
+                      { name: "Equipment", population: 20, color: "#f59e0b", legendFontColor: colors.muted, legendFontSize: 12 },
+                      { name: "Other", population: 10, color: "#6b7280", legendFontColor: colors.muted, legendFontSize: 12 },
+                    ]}
+                    width={Dimensions.get("window").width - 80}
+                    height={220}
+                    chartConfig={{
+                      color: (opacity = 1) => `rgba(10, 126, 164, ${opacity})`,
+                    }}
+                    accessor="population"
+                    backgroundColor="transparent"
+                    paddingLeft="15"
+                    absolute
+                  />
+                  <Text className="text-muted text-xs text-center mt-2">Percentage of total emissions</Text>
+                </View>
+              </View>
+
+              {/* Monthly Cost Analysis */}
+              <View className="mb-6">
+                <Text className="text-foreground text-base font-bold mb-3">Monthly Energy Cost</Text>
+                <View className="bg-surface rounded-xl p-4" style={{ borderWidth: 1, borderColor: colors.border }}>
+                  <BarChart
+                    data={{
+                      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                      datasets: [{
+                        data: [8500, 9200, 8800, 9500, 10500, 11500]
+                      }]
+                    }}
+                    width={Dimensions.get("window").width - 80}
+                    height={220}
+                    yAxisLabel="$"
+                    yAxisSuffix=""
+                    chartConfig={{
+                      backgroundColor: colors.surface,
+                      backgroundGradientFrom: colors.surface,
+                      backgroundGradientTo: colors.surface,
+                      decimalPlaces: 0,
+                      color: (opacity = 1) => `rgba(16, 185, 129, ${opacity})`,
+                      labelColor: (opacity = 1) => colors.muted,
+                      style: { borderRadius: 16 },
+                    }}
+                    style={{ marginVertical: 8, borderRadius: 16 }}
+                    showValuesOnTopOfBars
+                  />
+                  <Text className="text-muted text-xs text-center mt-2">USD per month</Text>
                 </View>
               </View>
             </Animated.View>

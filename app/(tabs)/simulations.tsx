@@ -7,6 +7,7 @@ import * as Haptics from "expo-haptics";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
+import { getAllSimulations, type SimulationResult } from "@/lib/demoSimulations";
 
 interface Simulation {
   id: string;
@@ -33,10 +34,37 @@ export default function SimulationsScreen() {
   const loadSimulations = async () => {
     try {
       const data = await AsyncStorage.getItem("simulations");
+      let userSimulations: Simulation[] = [];
       if (data) {
-        const parsed = JSON.parse(data);
-        setSimulations(parsed.reverse()); // Show newest first
+        userSimulations = JSON.parse(data);
       }
+      
+      // Load demo simulations
+      const demoSims = getAllSimulations();
+      const formattedDemoSims: Simulation[] = demoSims.map(sim => ({
+        id: sim.id,
+        buildingName: sim.buildingName,
+        interventionType: sim.scenarioType.toLowerCase().includes("solar") ? "solar" : 
+                         sim.scenarioType.toLowerCase().includes("hvac") ? "hvac" :
+                         sim.scenarioType.toLowerCase().includes("wind") ? "wind" : "envelope",
+        results: {
+          baseline: { annualEmissions: 1000 },
+          projected: { 
+            annualEmissions: 1000 * (1 - sim.carbonReduction / 100), 
+            reductionPercentage: sim.carbonReduction 
+          },
+          financial: { 
+            implementationCost: sim.costSavings / (sim.roi / 100), 
+            annualSavings: sim.costSavings, 
+            paybackPeriod: sim.paybackPeriod 
+          }
+        },
+        createdAt: sim.date
+      }));
+      
+      // Combine user and demo simulations
+      const allSims = [...userSimulations, ...formattedDemoSims];
+      setSimulations(allSims.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
     } catch (error) {
       console.error("Failed to load simulations", error);
     }
