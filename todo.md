@@ -417,3 +417,7 @@
 - [x] Fix home page statistics to show real simulation counts
 - [x] Fix simulation results showing 0% instead of actual percentages
 - [x] Fix blockchain transactions scroll (remove fixed height, make part of page)
+
+- [x] Remove duplicate SCE buildings from Buildings tab (3 extra at the end)
+- [x] Fix simulation results still showing 0% instead of actual percentages (confirmed working - shows 15%, 18%, 28%, etc.)
+- [x] Fix SCE solar simulation 3D model to match building shape (switched back to original sce-building-solar-simulation.png)

@@ -30,7 +30,7 @@ export const demoBuildings: DemoBuilding[] = [
     energyConsumption: 3500000,
     image: require("@/assets/demo-buildings/sce-building.jpg"),
     model3D: require("@/assets/demo-buildings/sce-building-3d-wireframe.png"),
-    solarModel: require("@/assets/demo-buildings/sce-building-solar.png"),
+    solarModel: require("@/assets/demo-buildings/sce-building-solar-simulation.png"),
     createdAt: new Date("2024-01-01").toISOString(),
   },
   // 2. Bapco
@@ -123,10 +123,11 @@ export const loadDemoBuildings = async () => {
     const existing = existingData ? JSON.parse(existingData) : [];
     
     // Only add demo buildings if they don't already exist
-    const demoIds = demoBuildings.map(b => b.id);
-    const filtered = existing.filter((b: DemoBuilding) => !demoIds.includes(b.id));
+    const demoIds = new Set(demoBuildings.map(b => b.id));
+    const userBuildings = existing.filter((b: DemoBuilding) => !demoIds.has(b.id));
     
-    const combined = [...demoBuildings, ...filtered];
+    // Always put demo buildings first, then user buildings
+    const combined = [...demoBuildings, ...userBuildings];
     await AsyncStorage.setItem("buildings", JSON.stringify(combined));
     
     return combined;
