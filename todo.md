@@ -427,3 +427,7 @@
 
 - [x] Adjust simulation image size back to previous (not full width) but ensure images aren't cut (0.7 width, resizeMode: contain)
 - [x] Clear duplicate SCE buildings from AsyncStorage (3 at the end) - verified only 6 buildings showing
+
+- [x] Increase building card image heights in Buildings tab (160px -> 220px)
+- [ ] Fix simulation results showing 0% (user still seeing this issue)
+- [ ] Provide clear method to remove duplicate SCE buildings from user's device

@@ -144,13 +144,13 @@ export default function BuildingsScreen() {
                       {building.image ? (
                         <Image
                           source={typeof building.image === 'string' ? { uri: building.image } : building.image}
-                          style={{ width: "100%", height: 160 }}
+                          style={{ width: "100%", height: 220 }}
                           resizeMode="cover"
                         />
                       ) : (
                         <View 
                           className="w-full items-center justify-center"
-                          style={{ height: 160, backgroundColor: colors.primary + "20" }}
+                          style={{ height: 220, backgroundColor: colors.primary + "20" }}
                         >
                           <Text style={{ fontSize: 60 }}>
                             {building.type === "office" ? "🏢" : 
