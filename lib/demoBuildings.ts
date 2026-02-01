@@ -1,0 +1,99 @@
+// Pre-loaded demo buildings for prominent Bahraini institutions
+
+export interface DemoBuilding {
+  id: string;
+  name: string;
+  type: string;
+  size: number; // square feet
+  floors: number;
+  location: string;
+  image?: string;
+  createdAt: string;
+  description: string;
+  currentEmissions: number; // tons CO2/year
+  energyConsumption: number; // kWh/year
+}
+
+export const demoBuildings: DemoBuilding[] = [
+  {
+    id: "demo-kingdom-university",
+    name: "Kingdom University",
+    type: "educational",
+    size: 77500, // 7204 sqm = ~77,500 sqft
+    floors: 6,
+    location: "Riffa, Bahrain",
+    description: "Leading private university in Bahrain with modern campus facilities including library, laboratories, and administrative buildings",
+    currentEmissions: 580,
+    energyConsumption: 2850000,
+    createdAt: new Date("2024-01-15").toISOString(),
+  },
+  {
+    id: "demo-king-hamad-hospital",
+    name: "King Hamad University Hospital",
+    type: "healthcare",
+    size: 688900, // 64,000 sqm = ~688,900 sqft
+    floors: 4,
+    location: "Busaiteen, Muharraq",
+    description: "State-of-the-art university hospital with three main buildings, National Oncology Centre, and cutting-edge medical facilities",
+    currentEmissions: 4200,
+    energyConsumption: 18500000,
+    createdAt: new Date("2024-01-10").toISOString(),
+  },
+  {
+    id: "demo-alba",
+    name: "Aluminium Bahrain (Alba)",
+    type: "industrial",
+    size: 5380000, // Large industrial facility, estimated
+    floors: 2,
+    location: "Askar, Bahrain",
+    description: "One of the world's largest aluminum smelters with extensive production facilities and power generation infrastructure",
+    currentEmissions: 12500,
+    energyConsumption: 85000000,
+    createdAt: new Date("2024-01-08").toISOString(),
+  },
+  {
+    id: "demo-bapco",
+    name: "Bahrain Petroleum Company (Bapco)",
+    type: "industrial",
+    size: 4300000, // Large refinery complex, estimated
+    floors: 3,
+    location: "Sitra, Bahrain",
+    description: "National oil company with refinery operations, administrative buildings, and extensive industrial infrastructure",
+    currentEmissions: 9800,
+    energyConsumption: 72000000,
+    createdAt: new Date("2024-01-12").toISOString(),
+  },
+  {
+    id: "demo-almarifa-school",
+    name: "Almarifa Girls High School",
+    type: "educational",
+    size: 95000, // Estimated for large high school
+    floors: 3,
+    location: "Riffa, Bahrain",
+    description: "Modern educational facility with classrooms, laboratories, sports facilities, and administrative areas",
+    currentEmissions: 320,
+    energyConsumption: 1650000,
+    createdAt: new Date("2024-01-18").toISOString(),
+  },
+];
+
+// Helper function to load demo buildings into AsyncStorage
+export const loadDemoBuildings = async () => {
+  try {
+    const AsyncStorage = (await import("@react-native-async-storage/async-storage")).default;
+    const existingData = await AsyncStorage.getItem("buildings");
+    const existing = existingData ? JSON.parse(existingData) : [];
+    
+    // Only add demo buildings if they don't already exist
+    const demoIds = demoBuildings.map(b => b.id);
+    const filtered = existing.filter((b: DemoBuilding) => !demoIds.includes(b.id));
+    
+    const combined = [...demoBuildings, ...filtered];
+    await AsyncStorage.setItem("buildings", JSON.stringify(combined));
+    
+    return combined;
+  } catch (error) {
+    console.error("Error loading demo buildings:", error);
+    return demoBuildings;
+  }
+};

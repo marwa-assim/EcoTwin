@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
+import { loadDemoBuildings } from "@/lib/demoBuildings";
 
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
@@ -27,7 +28,10 @@ export default function BuildingsScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      loadBuildings();
+      // Load demo buildings first, then load all buildings
+      loadDemoBuildings().then(() => {
+        loadBuildings();
+      });
     }, [])
   );
 
@@ -178,11 +182,22 @@ export default function BuildingsScreen() {
                           <TouchableOpacity
                             onPress={() => {
                               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                              router.push("/simulations/new");
+                              router.push(`/buildings/${building.id}`);
                             }}
                             className="flex-1 bg-primary rounded-xl py-3 items-center"
                           >
-                            <Text className="text-white font-semibold">Run Simulation</Text>
+                            <Text className="text-white font-semibold">View Details</Text>
+                          </TouchableOpacity>
+                          
+                          <TouchableOpacity
+                            onPress={() => {
+                              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                              router.push("/simulations/new");
+                            }}
+                            className="flex-1 bg-secondary/20 rounded-xl py-3 items-center"
+                            style={{ borderWidth: 1, borderColor: colors.primary }}
+                          >
+                            <Text className="font-semibold" style={{ color: colors.primary }}>Simulate</Text>
                           </TouchableOpacity>
                           
                           <TouchableOpacity

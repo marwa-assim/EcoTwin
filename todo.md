@@ -315,3 +315,28 @@
 - [ ] Add transaction verification animation
 - [ ] Show transaction details screen
 - [ ] Implement blockchain explorer link
+
+
+## Demo Buildings for Bahraini Institutions
+- [x] Research Kingdom University building data
+- [x] Research King Hamad Hospital building data
+- [x] Research Alba (Aluminium Bahrain) facility data
+- [x] Research Bapco (Bahrain Petroleum Company) facility data
+- [x] Research Almarifa Girls High School Riffa data
+- [ ] Generate building images for all 5 institutions
+- [x] Create demo buildings data file with realistic metrics
+- [x] Add pre-loaded demo buildings to app initialization
+- [ ] Create sample simulations for each demo building
+- [x] Test demo buildings display and functionality
+
+
+## 3D Building Visualization for All Buildings
+- [x] Create building detail screen component
+- [x] Add Building3DView component to detail screen
+- [x] Add IoTDashboard component to detail screen
+- [x] Create navigation from buildings list to detail view
+- [ ] Generate 3D wireframe images for all demo buildings
+- [x] Add tabs for Overview, Systems, Simulations, Analytics
+- [x] Display building metrics and specifications
+- [x] Add edit and delete functionality to detail screen
+- [x] Test 3D visualization on all buildings
