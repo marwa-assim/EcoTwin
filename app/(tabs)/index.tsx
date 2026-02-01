@@ -33,11 +33,14 @@ export default function HomeScreen() {
           >
             <View className="flex-1 p-6 justify-between">
               <View>
-                <Text className="text-white text-2xl font-bold mb-2">
-                  Digital Twin Platform
+                <Text className="text-white text-3xl font-bold mb-2">
+                  EcoTwin
                 </Text>
-                <Text className="text-white/90 text-sm">
-                  Proactive carbon reduction through AI-powered building optimization
+                <Text className="text-white/90 text-base">
+                  Digital Twin Sustainability Platform
+                </Text>
+                <Text className="text-white/80 text-sm mt-1">
+                  Proactive carbon reduction through AI-powered optimization
                 </Text>
               </View>
               

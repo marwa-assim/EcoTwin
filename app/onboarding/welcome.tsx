@@ -11,11 +11,16 @@ export default function WelcomeScreen() {
       <View className="flex-1 items-center justify-center px-6">
         {/* Hero Section */}
         <View className="items-center mb-12">
-          <View className="w-32 h-32 bg-primary rounded-3xl items-center justify-center mb-6">
-            <Text className="text-6xl">🏢</Text>
-          </View>
-          <Text className="text-4xl font-bold text-foreground text-center mb-4">
-            Digital Twin{"\n"}Sustainability Platform
+          <Image
+            source={require("@/assets/images/icon.png")}
+            style={{ width: 128, height: 128, marginBottom: 24 }}
+            resizeMode="contain"
+          />
+          <Text className="text-5xl font-bold text-foreground text-center mb-4">
+            EcoTwin
+          </Text>
+          <Text className="text-xl text-muted text-center mb-2">
+            Digital Twin Sustainability Platform
           </Text>
           <Text className="text-lg text-muted text-center max-w-sm">
             Proactive carbon reduction through AI-powered building optimization

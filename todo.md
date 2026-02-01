@@ -380,3 +380,13 @@
 - [ ] Add blockchain carbon accounting explanation section
 - [ ] Document how transactions are automatically added
 - [ ] Explain supply chain carbon tracking methodology
+
+
+## Critical Bug Fixes and Missing Features
+- [x] Fix simulation errors for all intervention types (some scenarios crash)
+- [x] Implement functional "Add Partner" form in blockchain tab
+- [x] Enlarge blockchain transactions list (currently too small)
+- [x] Verify EcoTwin app name is showing (still shows old name)
+- [x] Verify EcoTwin logo is visible in app
+- [x] Add PDF report download button to simulation results screen
+- [x] Implement PDF generation with simulation data and metrics

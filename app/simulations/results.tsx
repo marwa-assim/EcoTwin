@@ -1,7 +1,7 @@
-import { ScrollView, Text, View, TouchableOpacity, Dimensions } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, Image, Dimensions, Alert } from "react-native";
+import { useEffect, useState } from "react";
 
 const { width } = Dimensions.get("window");
-import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -185,6 +185,22 @@ export default function SimulationResultsScreen() {
 
         {/* Actions */}
         <View className="p-4 border-t gap-3" style={{ borderTopColor: colors.border }}>
+          <TouchableOpacity
+            onPress={() => {
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              Alert.alert(
+                "Report Generated",
+                `PDF report for ${buildingName} simulation has been generated.\n\nThe report includes:\n• Building specifications\n• 3D digital twin visualization\n• Carbon reduction metrics\n• Financial analysis & ROI\n• Implementation recommendations\n\nIn a production app, this would download a PDF file.`,
+                [
+                  { text: "OK" }
+                ]
+              );
+            }}
+            className="bg-secondary rounded-xl p-4 items-center"
+          >
+            <Text className="text-background font-bold">📄 Download PDF Report</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
