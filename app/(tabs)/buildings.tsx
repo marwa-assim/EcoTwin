@@ -143,7 +143,7 @@ export default function BuildingsScreen() {
                     >
                       {building.image ? (
                         <Image
-                          source={{ uri: building.image }}
+                          source={typeof building.image === 'string' ? { uri: building.image } : building.image}
                           style={{ width: "100%", height: 160 }}
                           resizeMode="cover"
                         />

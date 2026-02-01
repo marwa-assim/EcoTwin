@@ -6,16 +6,17 @@ interface Building3DViewProps {
   buildingId: string;
   showSolarSimulation?: boolean;
   model3D?: any; // Custom 3D model for this building
+  solarModel?: any; // Custom solar simulation model for this building
 }
 
-export function Building3DView({ buildingId, showSolarSimulation = false, model3D }: Building3DViewProps) {
+export function Building3DView({ buildingId, showSolarSimulation = false, model3D, solarModel }: Building3DViewProps) {
   const colors = useColors();
   const [viewMode, setViewMode] = useState<"wireframe" | "solar">(showSolarSimulation ? "solar" : "wireframe");
   const { width } = Dimensions.get("window");
 
   // Use custom 3D model if provided, otherwise use default SCE model
   const wireframeImage = model3D || require("@/assets/demo-buildings/sce-building-3d-wireframe.png");
-  const solarImage = require("@/assets/demo-buildings/sce-building-solar-simulation.png");
+  const solarImage = solarModel || require("@/assets/demo-buildings/sce-building-solar.png");
 
   return (
     <View className="w-full">

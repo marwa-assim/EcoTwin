@@ -363,3 +363,20 @@
 - [x] Update Building3DView component to use building-specific models
 - [x] Update demo buildings data with real photo paths
 - [x] Test all buildings show correct 3D models
+
+
+## App Improvements and Enhancements
+- [x] Rebrand app name to "EcoTwin"
+- [x] Replace app icon with new EcoTwin logo
+- [x] Update app.config.ts with new branding
+- [x] Reorder demo buildings: SCE, Bapco, Alba, Kingdom University, King Hamad Hospital, Almarifa
+- [x] Rename Supreme Council building to "Supreme Council for Environment (SCE)"
+- [x] Add building photos to buildings list view
+- [x] Fix solar simulation to show building-specific 3D model (not always SCE)
+- [ ] Fix blockchain "Add Partner" functionality
+- [ ] Improve blockchain transactions list (larger, clearer, better scrolling)
+- [ ] Add PDF report download button to simulation results
+- [ ] Implement PDF generation with building data, metrics, and charts
+- [ ] Add blockchain carbon accounting explanation section
+- [ ] Document how transactions are automatically added
+- [ ] Explain supply chain carbon tracking methodology
