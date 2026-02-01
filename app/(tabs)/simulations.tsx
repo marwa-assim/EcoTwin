@@ -158,7 +158,7 @@ export default function SimulationsScreen() {
                         </View>
                         <View className="bg-success/20 px-3 py-1 rounded-full">
                           <Text className="text-success font-bold text-sm">
-                            -{sim.results.projected.reductionPercentage.toFixed(0)}%
+                            -{sim.results?.projected?.reductionPercentage?.toFixed(0) || 0}%
                           </Text>
                         </View>
                       </View>
@@ -167,13 +167,13 @@ export default function SimulationsScreen() {
                         <View className="flex-1">
                           <Text className="text-muted text-xs mb-1">CO₂ Reduction</Text>
                           <Text className="text-foreground font-semibold">
-                            {(sim.results.baseline.annualEmissions - sim.results.projected.annualEmissions).toFixed(0)} tons/yr
+                            {((sim.results?.baseline?.annualEmissions || 0) - (sim.results?.projected?.annualEmissions || 0)).toFixed(0)} tons/yr
                           </Text>
                         </View>
                         <View className="flex-1">
                           <Text className="text-muted text-xs mb-1">Annual Savings</Text>
                           <Text className="text-success font-semibold">
-                            ${sim.results.financial.annualSavings.toLocaleString()}
+                            ${(sim.results?.financial?.annualSavings || 0).toLocaleString()}
                           </Text>
                         </View>
                       </View>
@@ -182,13 +182,13 @@ export default function SimulationsScreen() {
                         <View className="flex-1">
                           <Text className="text-muted text-xs mb-1">Investment</Text>
                           <Text className="text-foreground font-semibold">
-                            ${(sim.results.financial.implementationCost / 1000).toFixed(0)}K
+                            ${((sim.results?.financial?.implementationCost || 0) / 1000).toFixed(0)}K
                           </Text>
                         </View>
                         <View className="flex-1">
                           <Text className="text-muted text-xs mb-1">Payback</Text>
                           <Text className="text-primary font-semibold">
-                            {sim.results.financial.paybackPeriod.toFixed(1)} years
+                            {(sim.results?.financial?.paybackPeriod || 0).toFixed(1)} years
                           </Text>
                         </View>
                       </View>
