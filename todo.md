@@ -456,3 +456,7 @@
 - [ ] CRITICAL: PDF download not working - fix PDF generation and download
 
 - [ ] FINAL FIX: Ensure demo data structure in demoSimulations.ts matches EXACTLY what results screen expects
+
+- [ ] CRITICAL: Test in fresh browser, reproduce 0% issue, and fix the actual root cause in code
+
+- [ ] SOLUTION: Copy reload demo data logic to results screen so it always loads fresh data like reload button does
