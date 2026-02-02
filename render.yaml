@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ecotwin
+    runtime: node
+    plan: free
+    buildCommand: pnpm install && pnpm run dev:metro &
+    startCommand: pnpm run dev
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: EXPO_PORT
+        value: 8081
