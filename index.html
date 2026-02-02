@@ -1,26 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoTwin - Digital Twin Sustainability Platform</title>
-    <meta http-equiv="refresh" content="0; url=https://8081-ige55bxbr1zbv2stibscx-df198822.sg1.manus.computer">
+    <meta name="description" content="Proactive carbon reduction through AI-powered building optimization">
     <style>
-        body { font-family: system-ui; text-align: center; padding: 50px; background: #1a1a1a; color: #fff; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .logo { width: 100px; height: 100px; margin: 20px auto; }
-        h1 { color: #10B981; }
-        .loading { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+            z-index: 9999;
+        }
+        .logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        h1 {
+            color: #10B981;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #9CA3AF;
+            font-size: 16px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo loading">🌱</div>
+    <div class="loading" id="loading">
+        <div class="logo">🌱</div>
         <h1>EcoTwin</h1>
-        <p>Digital Twin Sustainability Platform</p>
-        <p class="loading">Redirecting to app...</p>
-        <p><a href="https://8081-ige55bxbr1zbv2stibscx-df198822.sg1.manus.computer" style="color: #10B981;">Click here if not redirected automatically</a></p>
+        <p>Loading Digital Twin Sustainability Platform...</p>
     </div>
+    <iframe 
+        id="app-frame"
+        src="https://8081-ige55bxbr1zbv2stibscx-df198822.sg1.manus.computer"
+        title="EcoTwin Application"
+        allow="accelerometer; camera; geolocation; microphone"
+        onload="document.getElementById('loading').classList.add('hidden')"
+    ></iframe>
 </body>
 </html>
